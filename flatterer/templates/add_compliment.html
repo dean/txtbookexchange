@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+    <head>
+    </head>
+    <font size="16">Add Compliment</font>
+    </br>
+    <form name="add" method="POST">
+        Compliment: {{form.compliment}}</br>
+        Gender: {{form.gender}}</br>
+        Name: {{form.name}}</br>
+    <input type="submit"></input>
+    {% if msg %}
+        {{msg}}
+    {% endif %}
+    </form>
+</html>
+{% endblock %}

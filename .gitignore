@@ -1,0 +1,7 @@
+*.pyc
+*.swp
+config.py
+env/
+db/
+*.db
+

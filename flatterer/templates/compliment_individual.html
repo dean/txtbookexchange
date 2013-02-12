@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+    {% block title %}
+        <title>{{name}}, you are awesome!</title>
+    {% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+    $(window).load(function(){
+        {% for compliment in compliments %}
+                alert("{{name}}, {{compliment.compliment | safe}}");
+        {% endfor %}
+    });
+</script>
+
+<style type="text/css">
+.box_textshadow {
+     text-shadow: 2px 2px 0px #000000; /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+}
+</style>
+{% endblock %}
+{% block content %}
+    <body class="container" background="{{theme.theme_path}}">
+    <div class="hero-unit">
+
+    <h1>
+    <font class="box_textshadow" color="white" value="{{name}}, you are awesome!">{{name}}, {{greeting}}</font>
+    </h1>
+    </div>
+    <embed src="{{theme.song_path}}" width="0" height="0">
+    </body>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+    {% block title %}
+        <title>{{name}}, you are awesome!</title>
+    {% endblock %}
+{% block content %}
+    <body class="container">
+    <div class="hero-unit">
+
+    <h1>{{name}}, you are awesome!</h1>
+    <font size=64 value="{{name}}, you are awesome!"/>
+
+    {% for compliment in compliments %}
+        <script type="text/javascript">
+            alert("{{name}}, {{compliment.compliment | safe}}");
+        </script>
+    {% endfor %}
+
+    </div>
+    </body>
+{% endblock %}

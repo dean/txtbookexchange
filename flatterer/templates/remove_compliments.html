@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Compliments</title>
+{% endblock %}
+
+{% include "add_compliment.html" %}
+
+{% block content %}
+
+<form name="remove" method="POST">
+    <font size=16>Male Compliments</font>
+    </br>
+    <table>
+        <tr>
+            <th>Checkbox</th>
+            <th>Compliment</th>
+        </tr>
+        {% for compliment in male_comps %}
+        <tr>
+            <td> <input name="checkbox" type="checkbox" value="{{compliment.id}}"></input> </td>
+            <td> {{compliment.compliment}} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </br></br>
+    <font size=16>Female Compliments</font>
+    </br>
+    <table>
+        <tr>
+            <th>Checkbox</th>
+            <th>Compliment</th>
+        </tr>
+        {% for compliment in female_comps %}
+        <tr>
+            <td> <input name="checkbox" type="checkbox" value="{{compliment.id}}"></input> </td>
+            <td> {{compliment.compliment}} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </br></br>
+    <font size=16>Any Gender Compliments</font>
+    </br>
+    <table>
+        <tr>
+            <th>Checkbox</th>
+            <th>Compliment</th>
+        </tr>
+        {% for compliment in any_comps %}
+        <tr>
+            <td> <input name="checkbox" type="checkbox" value="{{compliment.id}}"></input> </td>
+            <td> {{compliment.compliment}} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </br></br>
+     <font size=16>Personal Compliments</font>
+    </br>
+    <table>
+        <tr>
+            <th>Checkbox</th>
+            <th>Compliment</th>
+            <th>Name</th>
+        </tr>
+        {% for compliment in personal_comps %}
+        <tr>
+            <td> <input name="checkbox" type="checkbox" value="{{compliment.id}}"></input> </td>
+            <td> {{compliment.compliment}} </td>
+            <td> {{compliment.user_name}} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </br>
+
+    <input type="submit" value="Remove Selected"></input>
+</form>
+{% endblock %}
