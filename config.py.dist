@@ -15,7 +15,7 @@ if DATABASE_TYPE == 'test' or DATABASE_TYPE == 'dev':
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'db/flatterme.db')
 elif DATABASE_TYPE == 'production':
     #Add mysql URI
-    SQLALCHEMY_DATABASE_URI = 'mysql://orvsd:xL54wj4@stagingdb.orvsd.org/central'
+    SQLALCHEMY_DATABASE_URI = 'mysql://'
 else:
     raise NameError('The value used for DATABASE_TYPE is not an accepted value.')
 DATABASE_CONNECT_OPTIONS = {}

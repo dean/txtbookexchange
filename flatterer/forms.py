@@ -13,8 +13,6 @@ class AddTheme(Form):
 class AddCompliment(Form):
     compliment = TextField('compliment', [Required()])
     gender = SelectField('gender', choices=[('None', 'None'), ('Male', 'Male'), ('Female', 'Female'), ('Any', 'Any')])
-    names = User.query.all()
-    name = SelectField('name', choices=[(x.name, x.name) for x in names])
 
 class AddGender(Form):
     gender = SelectField('gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Any', 'Any')])

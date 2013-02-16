@@ -42,7 +42,19 @@ def add_compliment():
         add_compliment(form)
         msg = "Compliment successfully added!"
     return render_template('add_compliment.html', form=form,
+                        msg=msg, general=True)
+
+@app.route("/<name>/add_compliment", methods=['GET', 'POST'])
+def add_individual_compliment(name):
+    form = AddCompliment()
+    msg = ""
+
+    if request.method == "POST":
+        add_compliment(form, name=name)
+        msg = "Compliment successfully added!"
+    return render_template('add_compliment.html', form=form,
                         msg=msg)
+
 
 @app.route("/<name>/add_theme/", methods=['GET', 'POST'])
 def add_theme(name):
@@ -53,16 +65,16 @@ def add_theme(name):
     
     return render_template('add_theme.html', form=form, name=name) 
 
-def add_compliment(form):
-    if form.gender.data != "None":
+def add_compliment(form, name=None):
+    if name:
+        db.session.add(Compliment(compliment=form.compliment.data,
+                        user_name=name))    
+        print "Personal compliment added."
+
+    else:
         db.session.add(Compliment(compliment=form.compliment.data, 
                         compliment_gender=form.gender.data))
         print "Gender specific compliment added"
-    else:
-        db.session.add(Compliment(compliment=form.compliment.data,
-                        compliment_gender=form.gender.data,
-                        user_name=form.name.data))    
-        print "Personal compliment added."
     db.session.commit()
 
 

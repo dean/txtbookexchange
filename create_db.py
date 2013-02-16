@@ -1,2 +1,2 @@
-from flatterer import db
+from flatterer import db, app
 db.create_all()
