@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Compliments</title>
+{% endblock %}
+
+{% block content %}
+<div class="hero-unit">
+<form name="remove" method="POST">
+    {% for title, compliment_type in compliment_info %}
+        <font size=16>{{title}}</font>
+        </br>
+        <table class="table">
+            <tr>
+                <th>Remove</th>
+                <th>Compliment</th>
+                <th>Name</th>
+            </tr>
+            {% for compliment in compliment_type %}
+            <tr>
+                <td> <input name="remove" type="checkbox" value="{{compliment.id}}"></input> </td>
+                <td> {{compliment.compliment}}</td>
+                <td> {{compliment.name}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        </br></br>
+    {% endfor %}
+    </br></br>
+
+     <font size=16>Unapproved Compliments</font>
+        </br>
+        <table class="table">
+            <tr>
+                <th>Approve</th>
+                <th>Compliment</th>
+                <th>Gender</th>
+            </tr>
+            {% for compliment in compliment_type %}
+            <tr>
+                <td> <input name="approve" type="checkbox" value="{{compliment.id}}"></input> </td>
+                <td> {{compliment.compliment}}</td>
+                <td> {{compliment.gender}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        </br></br>
+
+    </br>
+    <input type="submit"></input>
+</form>
+{% endblock %}
+</div>

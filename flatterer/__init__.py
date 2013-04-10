@@ -6,11 +6,13 @@ import sqlite3
 app = Flask(__name__)
 app.config.from_object('config')
 
-lm = LoginManager()
+login_manager = LoginManager()
+login_manager.setup_app(app)
 
 db = SQLAlchemy(app)
 db.init_app(app)
-lm.setup_app(app)
 
 import models, views
 
+from views import relay
+app.register_blueprint(relay)

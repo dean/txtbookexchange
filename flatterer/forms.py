@@ -2,7 +2,14 @@ from flask.ext.wtf import Form, TextField, PasswordField, BooleanField, SelectFi
 from flask.ext.wtf import Required, Email, EqualTo
 from models import User
 
-class AddUser(Form):
+class Register(Form):
+    name = TextField('name', [Required()])
+    username = TextField('username', [Required()])
+    password = PasswordField('password', [Required()])
+    confirm_pass = PasswordField('confirm_pass', [Required()])
+    admin = BooleanField('admin', default=False)
+
+class AddComplimentee(Form):
     name = TextField('name', [Required()])
     greeting = TextField('greeting')
 
@@ -16,3 +23,15 @@ class AddCompliment(Form):
 
 class AddGender(Form):
     gender = SelectField('gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Any', 'Any')])
+
+class Get_Info(Form):
+    name = TextField('name', [Required()])
+    gender = SelectField('gender', choices=[('Male', 'Male'), ('Female', 'Female')])
+
+class LoginForm(Form):
+    username = TextField('name', [Required()])
+    password = PasswordField('password', [Required()])
+
+class Relay(Form):
+    name = TextField('name', [Required()])
+    house = SelectField('house', choices=[('Delta Delta Delta', 'Delta Delta Delta'), ('Acacia', 'Acacia'), ('Sigma Pi', 'Sigma Pi')])

@@ -3,13 +3,11 @@
 <html>
     <head>
     </head>
-    <font size="16">Add Compliment</font>
+    <font size="16">Edit Theme for {{name}}</font>
     </br>
     <form name="add" method="POST">
-        Compliment: {{form.compliment}}</br>
-	{% if general %}
-	    Gender: {{form.gender}}</br>
-	{% endif %}
+        Theme: {{form.theme_path}}</br>
+        Song: {{form.song_path}}</br>
     <input type="submit"></input>
     {% if msg %}
         {{msg}}

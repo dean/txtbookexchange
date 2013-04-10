@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Complimentees</title>
+{% endblock %}
+
+{% block content %}
+<div class="hero-unit">
+    <font size=16>Complimentees</font>
+    </br>
+    <table>
+        {% for complimentee in complimentees %}
+        <tr>
+            <td> <a href="/{{complimentee}}">{{complimentee}}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    </br></br>
+{% endblock %}
+</div>
