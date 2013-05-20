@@ -5,20 +5,31 @@
             .box_textshadow {
                  text-shadow: 2px 2px 0px #000000; /* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
             }
+            body {
+                background: url({{url_for('static', filename='BG.jpg') }}) no-repeat fixed;
+            }
         </style>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='bootstrap/css/bootstrap.css') }}" />
         {%endblock%}
 
+        {% block title %}
+            <title>Flatterer</title>
+        {% endblock %}
+        {%block javascripts%}
+            <script type="text/javascript" src="{{url_for('static',filename='js/jquery.min.js') }}"></script>
+        {%endblock%}
+        {%block scripts%}
+
+        {% endblock %}
+    </head>
+   <body class="container">
         {% if user.name %}
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container">
                         <ul class="nav">
                             <li class="active">
-                                <a class="brand" href="/get_info">Flatter Me!</a>
-                            </li>
-                            <li>
-                                <a href="/">About</a>
+                                <a class="brand" href="/">Home</a>
                             </li>
                             <li>
                                 <a href="/list_complimentees">My Complimentees</a>
@@ -28,9 +39,12 @@
                                     <a href="/control_panel">Manage Compliments</a>
                                 </li>
                             {% endif %}
+                            <li>
+                                <a href="/add_complimentee">Add Complimentee</a>
+                            </li>
                         </ul>
                         <form action="/logout" method="POST" style="padding-left: 25px" class="navbar-form pull-right">
-                            <input type="submit" value="Logout"></input>
+                            <input class="btn" type="submit" value="Logout"></input>
                         </form>
                         <p class="navbar-text pull-right">
                             Logged in as: <a href="/me">{{user.name}}</a>
@@ -45,22 +59,19 @@
                 <div class="container">
                     <ul class="nav">
                         <li class="active">
-                            <a class="brand" href="/get_info">Flatter Me!</a>
-                        </li>
-                        <li>
-                            <a href="/">About</a>
+                            <a class="brand" href="/">Home</a>
                         </li>
                         <li>
                             <a href="/register">Register</a>
                         </li>
                     </ul>
-                    <form class="navbar-form pull-right" method="POST" action="/login">
+                    <form class="navbar-form pull-right form-inline" method="POST" action="/login">
                         <ul class="nav">
                             <li>
-                                {{login_form.username(placeholder="Username", sizse=20)}}
+                                {{login_form.username(placeholder="Username", class="input-medium",  size=20)}}
                             </li>
                             <li>
-                                {{login_form.password(placeholder="Password", size=5)}}
+                                {{login_form.password(placeholder="Password", class="input-medium", size=5)}}
                             </li>
                             <li>
                                 <input class="btn" type="submit" style="padding-left: 25px"value="Login"></input>
@@ -72,17 +83,6 @@
         </div>
         {% endif %}
 
-        {% block title %}
-            <title>Flatterer</title>
-        {% endblock %}
-        {%block javascripts%}
-            <script type="text/javascript" src="{{url_for('static',filename='js/jquery.min.js') }}"></script>
-        {%endblock%}
-        {%block scripts%}
-
-        {% endblock %}
-    </head>
-    <body class="container">
         <div id="header">
             {%block header%}
             {%endblock%}

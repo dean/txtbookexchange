@@ -11,6 +11,7 @@ class Register(Form):
 
 class AddComplimentee(Form):
     name = TextField('name', [Required()])
+    url = TextField('url', [Required()])
     greeting = TextField('greeting')
 
 class AddTheme(Form):
@@ -19,7 +20,7 @@ class AddTheme(Form):
 
 class AddCompliment(Form):
     compliment = TextField('compliment', [Required()])
-    gender = SelectField('gender', choices=[('None', 'None'), ('Male', 'Male'), ('Female', 'Female'), ('Any', 'Any')])
+    gender = SelectField('gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Any', 'Any')])
 
 class AddGender(Form):
     gender = SelectField('gender', choices=[('Male', 'Male'), ('Female', 'Female'), ('Any', 'Any')])

@@ -4,14 +4,11 @@
     <head>
     </head>
     <font size="16">Edit Theme for {{name}}</font>
-    </br></br>
+    </br>
     <form name="add" method="POST">
-        Theme (Background Image): {{form.theme_path}}</br>
+        Theme: {{form.theme_path}}</br>
         Song: {{form.song_path}}</br>
     <input type="submit"></input>
-    </br>
-    </br>
-    These will be displayed when you begin complimenting this user!</br>Note: This step is not required.
     {% if msg %}
         {{msg}}
     {% endif %}

@@ -1,26 +1,42 @@
 {% extends 'base.html' %}
-    {% block title %}
-        <title>{{name}}, you are awesome!</title>
-    {% endblock %}
+{% block title %}
+    <title>{{name}}, you are awesome!</title>
+{% endblock %}
+
+{% if not theme.theme_path %}
+<style type="text/css">
+    body {
+        background: url({{url_for('static', filename='BG.jpg') }}) no-repeat fixed;
+    }
+</style>
+{% endif %}
+
 {% block scripts %}
 <script type="text/javascript">
-    $(window).load(function(){
-        {% for compliment in compliments %}
-                alert("{{name}}, {{compliment.compliment | safe}}");
-        {% endfor %}
+    $(this).load(function(){
+        var compliments = [{% for compliment in compliments %}"{{compliment.compliment | safe }}",
+        {% endfor %}];
+                for (var i = 0; i < compliments.length; i++) {
+                    if ( confirm("{{name}}, "+compliments[i]) ) {}
+                    else { break; }
+                }
     });
 </script>
 
 </style>
 {% endblock %}
-{% block content %}
-    <body class="container" background="{{theme.theme_path}}">
-    <div class="hero-unit">
 
+{% block content %}
     <h1>
+    <div align="center">
     <font class="box_textshadow" color="white" value="{{name}}, you are awesome!">{{name}}, {{greeting}}</font>
+    </div>
     </h1>
     </div>
-    <embed src="{{theme.song_path}}" width="0" height="0">
-    </body>
+    <div align="center" id="video">
+    <audio autoplay="autoplay" 
+        <source src={{theme.song_path}} type="audio/mpeg">
+    </audio>
+    <!--<embed src="http://www.youtube.com/v/CKHgwVYVdWQ&autoplay=1" type="application/x-shockwave-flash" wmode="transparent" width="400" height="320"></embed> --!>
+    </div>
 {% endblock %}

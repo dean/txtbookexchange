@@ -6,9 +6,9 @@ from flatterer import app
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--ip", help="listen to this IP address",
-                    default="127.0.0.1")
+                    default="0.0.0.0")
 parser.add_argument("-p", "--port", help="listen to this port",
-                    default="5000", type=int)
+                    default="80", type=int)
 parser.add_argument("-d", "--debug", help="turn debugging on",
                     default="--debug")
 

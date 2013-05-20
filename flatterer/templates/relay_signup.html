@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="hero-unit">
+<h1>Relay for Life Signups</h1>
+</br></br>
 <form name="remove" method="POST">
 
     {% for times in timeslot %}
-        <h2>{{times.time}}</h2>
+        <h3>{{times.time}}</h3>
         <form method="POST">
             <table class="table">
             <tr>
@@ -29,22 +30,6 @@
             </table>
         <input type="submit" name="{{times.time}}" value="Signup!"></input>
         </form>
-
-
-
     {% endfor %}
 
-    <table class="table">
-        <tr>
-            <th>Checkbox</th>
-        </tr>
-        <tr>
-            <td> <input name="checkbox" type="checkbox" value="1"></input> </td>
-        </tr>
-    </table>
-    </br></br>
-
-    <input type="submit" value="Remove Selected"></input>
-</form>
 {% endblock %}
-</div>

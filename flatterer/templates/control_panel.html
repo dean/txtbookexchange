@@ -15,12 +15,14 @@
                 <th>Remove</th>
                 <th>Compliment</th>
                 <th>Name</th>
+                <th>Approved</th>
             </tr>
             {% for compliment in compliment_type %}
             <tr>
                 <td> <input name="remove" type="checkbox" value="{{compliment.id}}"></input> </td>
                 <td> {{compliment.compliment}}</td>
-                <td> {{compliment.name}}</td>
+                <td> {{compliment.user_name}}</td>
+                <td> {{compliment.approved}}</td>
             </tr>
             {% endfor %}
         </table>
@@ -36,11 +38,11 @@
                 <th>Compliment</th>
                 <th>Gender</th>
             </tr>
-            {% for compliment in compliment_type %}
+            {% for compliment in unapproved_comps %}
             <tr>
                 <td> <input name="approve" type="checkbox" value="{{compliment.id}}"></input> </td>
                 <td> {{compliment.compliment}}</td>
-                <td> {{compliment.gender}}</td>
+                <td> {{compliment.compliment_gender}}</td>
             </tr>
             {% endfor %}
         </table>
