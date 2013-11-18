@@ -2,7 +2,7 @@ import sys
 import argparse
 
 sys.dont_write_bytecode = True
-from flatterer import app
+from tbkexch import app
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--ip", help="listen to this IP address",

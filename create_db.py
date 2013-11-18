@@ -1,6 +1,3 @@
-from flatterer import app, db
-from flatterer.models import User
+from tbkexch import app, db
 
 db.create_all()
-
-

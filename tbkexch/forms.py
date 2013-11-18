@@ -1,5 +1,5 @@
-from flask.ext.wtf import Form, TextField, TextAreaField, PasswordField, BooleanField, SelectField
-from flask.ext.wtf import Required, Email, EqualTo
+from wtforms import Form, TextField, TextAreaField, PasswordField, BooleanField, SelectField
+from wtforms.validators import Required
 from models import User
 
 class Register(Form):
