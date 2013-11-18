@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Search results for "{{term}}"</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    h4 {
+        font-weight:normal;
+    }
+</style>
+<div class"hero-unit">
+    {% if books %}
+        {% for book in books %}
+        <h2>{{book.title}}:</h2>
+        {% if book.title %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Title:&nbsp{{book.title}}</h4></label>
+        </div>
+        {% endif %}
+        {% if book.title_long %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Long Title:&nbsp{{book.title_long}}</h4></label>
+        </div>
+        <div class="control-group offset1">
+            <label class="control-label"><h4>ISBN 10:&nbsp{{book.isbn10}}</h4></label>
+        </div>
+        <div class="control-group offset1">
+            <label class="control-label"><h4>ISBN 13:&nbsp{{book.isbn13}}</h4></label>
+        </div>
+        {% endif %}
+        {% if book.author %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Author:&nbsp{{book.author}}</h4></label>
+        </div>
+        {% endif %}
+        {% if book.publisher %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Publisher:&nbsp{{book.publisher}}</h4></label>
+        </div>
+        {% endif %}
+        </h3>
+        </br>
+        {% endfor %}
+    {% else %}
+        <h2>{{book.title}}:</h2>
+        {% if book.title %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Title:&nbsp{{book.title}}</h4></label>
+        </div>
+        {% endif %}
+        {% if book.title_long %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Long Title:&nbsp{{book.title_long}}</h4></label>
+        </div>
+        <div class="control-group offset1">
+            <label class="control-label"><h4>ISBN 10:&nbsp{{book.isbn10}}</h4></label>
+        </div>
+        <div class="control-group offset1">
+            <label class="control-label"><h4>ISBN 13:&nbsp{{book.isbn13}}</h4></label>
+        </div>
+        {% endif %}
+        {% if book.author %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Author:&nbsp{{book.author}}</h4></label>
+        </div>
+        {% endif %}
+        {% if book.publisher %}
+        <div class="control-group offset1">
+            <label class="control-label"><h4>Publisher:&nbsp{{book.publisher}}</h4></label>
+        </div>
+        {% endif %}
+        </h3>
+        </br>
+    {% endif %}
+    <h2>
+        Search results for "{{term}}":
+    </br></br>
+    </h2>
+    <table class="table table-striped offset1">
+        <tr>
+            <th>Owner</th>
+            <th>Title</th>
+            <th>Course</th>
+            <th>Notes</th>
+            <th>Cost</th>
+        </tr>
+    {% for listing in listings %}
+        <tr>
+            <td>{% if listing.user_id != user.id %} <a href="{{url_for('conversation', sender_id=user.id, receiver_id=listing.user_id)}}">Message</a>{% else %}Message{% endif %}</td>
+            <td>{% if listing.book.title %}{{listing.book.title}}{% else%}{{listing.book.title_long}}{%endif%}</td>
+            <td>{{listing.course}}
+            <td>{{listing.notes}}
+            <td>{{listing.cost}}
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
+</div>

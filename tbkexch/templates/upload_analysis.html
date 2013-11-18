@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Upload analysis on:&nbsp{{filename}}</title>
+{% endblock %}
+
+{% block content %}
+<style>
+    h3 {
+        font-weight:normal;
+    }
+</style>
+<div class"hero-unit">
+    {% for book in books %}
+    <h2>
+        Upload Analysis of:&nbsp{{book.filename}}
+    </br></br>
+    </h2>
+    {% if book.title %}
+    <div class="control-group">
+        <label class="control-label"><h3>Title:&nbsp{{book.title}}</h3></label>
+    </div>
+    {% endif %}
+    {% if book.title_long %}
+    <div class="control-group">
+        <label class="control-label"><h3>Long Title:&nbsp{{book.title_long}}</h3></label>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><h3>ISBN 10:&nbsp{{book.isbn10}}</h3></label>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><h3>ISBN 13:&nbsp{{book.isbn13}}</h3></label>
+    </div>
+    {% endif %}
+    {% if book.author %}
+    <div class="control-group">
+        <label class="control-label"><h3>Author:&nbsp{{book.author}}</h3></label>
+    </div>
+    {% endif %}
+    {% if book.publisher %}
+    <div class="control-group">
+        <label class="control-label"><h3>Publisher:&nbsp{{book.publisher}}</h3></label>
+    </div>
+    {% endif %}
+    </h3>
+    </table>
+    </br></br>
+    {% endfor %}
+{% endblock %}
+</div>

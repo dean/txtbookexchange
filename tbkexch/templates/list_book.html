@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>List Book</title>
+{% endblock %}
+{% block pageheader %}
+List Book:
+{% endblock %}
+{% block content %}
+    <form class="form-horizontal" method="POST">
+        <div class="control-group">
+            <label class="control-label">**ISBN:&nbsp</label> {{form.isbn}}<br>
+        </div>
+        <div class="control-group">
+            <label class="control-label">**Cost:&nbsp</label> {{form.cost}}<br>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Course:&nbsp</label> {{form.course}}<br>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Notes:&nbsp</label> {{form.notes(placeholder="Condition of book, etc")}}<br>
+        </div>
+        <div class="control-group">
+            <label class="control-label">** = Required</label><br>
+        </div>
+        <div class="control-group">
+            {% if msg %}
+                <label class="control-label">{{msg}} </label>
+            {% endif %}
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn" type="submit" value="List Book"><br>
+            </div>
+        </div>
+    </form>
+   
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+    <head>
+    </head>
+    <font size="16">Add Theme for {{name}}</font>
+    </br></br>
+    <form name="add" method="POST">
+        Theme (Background Image): {{form.theme_path}}</br>
+        Song: {{form.song_path}}</br>
+    <input type="submit"></input>
+    <input type="submit" value="Skip"></input>
+    </br>
+    </br>
+    These will be displayed when you begin complimenting this user!</br>Note: This step is not required.
+    {% if msg %}
+        {{msg}}
+    {% endif %}
+    </form>
+</html>
+{% endblock %}
