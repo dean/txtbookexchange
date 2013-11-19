@@ -80,12 +80,11 @@ def get_user():
 def login():
     if g.user.is_anonymous():
         form=LoginForm(request.form, csrf_enabled=False)
-        if form.validate_on_submit():
-            # login and validate the user...
-            user = User.query.filter_by(username=form.username.data).first()
-            if user and user.password == form.password.data:
-                login_user(user)
-                flash("Logged in successfully.")
+
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.password == form.password.data:
+            login_user(user)
+            flash("Logged in successfully.")
     else:
         return no_perms("There is a user already logged in!")
     return redirect("/")
