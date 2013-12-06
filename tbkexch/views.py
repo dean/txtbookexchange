@@ -45,7 +45,9 @@ def register():
     form = Register()
     message = ""
 
-    if request.method == "POST":
+    print form
+    print form.password.data
+    if request.method == "POST": 
         if form.password.data != form.confirm_pass.data:
             message="The passwords provided did not match!\n"
         elif User.query.filter_by(username=form.username.data).all():
@@ -57,7 +59,7 @@ def register():
             db.session.add(user)
             db.session.commit()
             login_user(user)
-            flash("Registered and logged in successfully!")
+            messae="Registered and logged in successfully!"
             return render_template('home.html', user=g.user, login_form=g.login_form)
 
     return render_template('register.html', user=g.user, login_form=g.login_form, form=form, message=message)
