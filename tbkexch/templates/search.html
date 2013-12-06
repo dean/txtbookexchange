@@ -88,7 +88,7 @@
         </tr>
     {% for listing in listings %}
         <tr>
-            <td>{% if listing.user_id != user.id %} <a href="{{url_for('conversation', sender_id=user.id, receiver_id=listing.user_id)}}">Message</a>{% else %}Message{% endif %}</td>
+            <td>{% if listing.user_id != g.user.id %} <a href="{{url_for('conversation', sender_id=g.user.id, receiver_id=listing.user_id)}}">Message</a>{% else %}Message{% endif %}</td>
             <td>{% if listing.book.title %}{{listing.book.title}}{% else%}{{listing.book.title_long}}{%endif%}</td>
             <td>{{listing.course}}
             <td>{{listing.notes}}

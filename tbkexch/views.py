@@ -10,7 +10,7 @@ import urllib
 import os
 import re
 
-#DECORATORS
+# Decorators
 
 def require_admin(f):
     @wraps(f)
@@ -20,7 +20,7 @@ def require_admin(f):
         return no_perms("You are not an admin!")
     return decorated_function
 
-#TODO: Clean this method up a bit
+
 #TODO: Include if any new messages are present for a user here, then notify.
 @app.before_request
 def before_request():
@@ -29,29 +29,30 @@ def before_request():
         g.user = User("", "Guest", "")
     g.login_form = LoginForm()
 
-#VIEWS
+
+# Routes
 
 @app.route("/")
 def home():
-    return render_template("home.html", login_form=g.login_form, user=g.user)
+    return render_template("home.html")
+
 
 #TODO: Make this exclusively no_perms, and fix templates to use flashed text
 @app.route("/no_perms")
 def no_perms(msg):
-    return render_template("message.html", login_form=g.login_form, user=g.user, msg=msg)
+    return render_template("message.html", msg=msg)
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = Register()
     message = ""
 
-    print form
-    print form.password.data
     if request.method == "POST": 
         if form.password.data != form.confirm_pass.data:
-            message="The passwords provided did not match!\n"
+            message = "The passwords provided did not match!\n"
         elif User.query.filter_by(username=form.username.data).all():
-            message="This username is taken!"
+            message = "This username is taken!"
         else:
             #Add user to db
             user = User(name=form.name.data, username=form.username.data,
@@ -59,15 +60,18 @@ def register():
             db.session.add(user)
             db.session.commit()
             login_user(user)
-            messae="Registered and logged in successfully!"
-            return render_template('home.html', user=g.user, login_form=g.login_form)
+            messae = "Registered and logged in successfully!"
+            return render_template('home.html')
 
-    return render_template('register.html', user=g.user, login_form=g.login_form, form=form, message=message)
+    return render_template('register.html', form=form, message=message)
+
 
 @login_manager.user_loader
 def load_user(userid):
     return User.query.filter_by(id=userid).first()
 
+
+# For Flask-Login
 def get_user():
     # A user id is sent in, to check against the session
     # and based on the result of querying that id we
@@ -78,10 +82,11 @@ def get_user():
             return User.query.filter_by(id=session["user_id"]).first()
     return None
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if g.user.is_anonymous():
-        form=LoginForm(request.form, csrf_enabled=False)
+        form = LoginForm(request.form, csrf_enabled=False)
 
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.password == form.password.data:
@@ -91,11 +96,13 @@ def login():
         return no_perms("There is a user already logged in!")
     return redirect("/")
 
+
 @app.route("/logout", methods=['POST'])
 def logout():
     logout_user()
     flash("Logged out successfully!")
     return redirect("/")
+
 
 #TODO: Sort most recent conversations to first
 #TODO: Add in unread messages
@@ -115,8 +122,7 @@ def inbox():
             conversations.append(conv)
 
         #conversations = unsorted_conversations.sort(key=lambda r: r.messages[len(r.messages)-1].sent_at)
-        return render_template('inbox.html', user=g.user, login_form=g.login_form,
-                                conversations=conversations)
+        return render_template('inbox.html', conversations=conversations)
     return no_perms("You do not have any conversations!")
 
 
@@ -125,14 +131,16 @@ def listings(user_id):
     user = User.query.filter_by(id=user_id).first()
     if not user:
         return no_perms("The user your are looking for does not exist!")
+
     books = Listing.query.filter_by(user_id=user.id).all()
     if not g.user.is_anonymous():
         self = user.id == g.user.id
         if not self:
-            return render_template("listings.html", lister=user, user=g.user, login_form=g.login_form, self=self, books=books)
+            return render_template("listings.html", lister=user, self=self, books=books)
     else:
-        return render_template("listings.html", lister=user, user=g.user, login_form=g.login_form,self=False, books=books)
-    return render_template("listings.html", lister=user, user=g.user, login_form=g.login_form, self=self, books=books)
+        return render_template("listings.html", lister=user, self=False, books=books)
+    return render_template("listings.html", lister=user, self=self, books=books)
+
 
 #TODO: Make sure the first message is sent with the listing title
 #TODO: Implement read and unread messages.
@@ -181,8 +189,10 @@ def conversation(sender_id,receiver_id):
             msg.sent_at = msg.sent_at.strftime("%b %d, %Y")
         conv.messages = Message.query.filter_by(conversation_id=conv.id).all()
 
-    return render_template("conversation.html", form=form, user=g.user, login_form=g.login_form, conversation=conv, receiver=receiver)
+    return render_template("conversation.html", form=form, conversation=conv, receiver=receiver)
 
+
+# TODO: Cleanup/ Get rid of hacks.
 @app.route("/search", methods=['GET', 'POST'])
 def search():
     if not request.method == "POST":
@@ -190,6 +200,7 @@ def search():
 
     term = request.form.get("search")
     books, book, listings = [], "", ""
+
     # Check for ISBN10, ISBN13, or by course
     isbn = False
 
@@ -202,14 +213,18 @@ def search():
         isbn = True
 
     if not isbn:
+        print term
         book = db.session.query(Book).filter(
                 Book.title.like("%"+term+"%")).first()
         if book is None:
             book = db.session.query(Book).filter(
                     Book.author.like("%"+term+"%")).first()
             if book is None:
-                listings = Listing.query.filter_by(course=term.replace(" ", "")).order_by("listing_ref").all()
+                print term
+                listings = Listing.query.filter_by(course=term.upper().replace(" ", "")).order_by("listing_ref").all()
+                print listings
                 if not listings:  # Check for course as a search term.
+                    print term.replace(" ", "")
                     term = filter_commons(term)
                     for qtype in [Book.author, Book.title]:
                         for word in filter_commons(term).split(" "):
@@ -245,56 +260,11 @@ def search():
         else:
             if len(books) == 1:
                 book = books[0]
-            return render_template("search.html", term=term, login_form=g.login_form,
-                                    user=g.user, listings=listings, book=book)
+            return render_template("search.html", term=term, listings=listings, book=book)
 
     else:
         return no_perms("Sorry, the book you were searching for was not found.")
 
-    """
-    if len(term) == 10:
-        book = Book.query.filter_by(isbn10=term).first()
-    elif len(term) == 13:
-        book = Book.query.filter_by(isbn13=term).first()
-    else:
-        listings = Listing.query.filter_by(course=term).order_by("listing_ref").all()
-
-    if not listings:
-        if book:
-            listings = Listing.query.filter_by(listing_ref=book.id).order_by("listing_ref").all()
-        else:
-            return no_perms("That book is not available right now!")
-    else:
-        for listing in listings:
-            if listing.book not in books:
-                books.append(listing.book)
-
-        return render_template("search.html", term=term, login_form=g.login_form, user=g.user, listings=listings, books=books)
-
-    return render_template("search.html", term=term, login_form=g.login_form, user=g.user, listings=listings, book=book)
-    """
-
-def filter_commons(search_term):
-    common_words = ['the', 'a', 'is', 'of', 'an']
-    for cw in common_words:
-        search_term.replace(cw, "")
-    return search_term
-
-def truncate_list(l):
-    return [[book for book in book_list if book] for book_list in books]
-
-def empty_list(lists):
-    for s in lists:
-        if isinstance(s, Book):
-            return False
-        for l in s:
-            if isinstance(s, Book):
-                return False
-    return True
-
-
-def get_book_from_db(book_info):
-    pass
 
 #TODO: Check for other special characters Hint: Use regex
 #TODO: Change notes to condition, and rate condition of book on a 1-5 scale.
@@ -318,7 +288,8 @@ def list_book():
         else:
             msg = "ISBN was not 10 or 13 characters long!"
 
-    return render_template("list_book.html", form=form, msg=msg, login_form=g.login_form, user=g.user)
+    return render_template("list_book.html", form=form, msg=msg) 
+
 
 #TODO: Create more readable logic
 #TODO: Test if the db is querying and when found API is not called
@@ -340,10 +311,8 @@ def get_book_by_isbn(isbn):
         print "total_results=\"0\""
 
         if "total_results=\"0\"" not in resp:
-        #    return "Book with ISBN " + str(isbn) + " does not exist!"
-            print resp
+            # return "Book with ISBN " + str(isbn) + " does not exist!"
             formatted_xml = ''.join([None if line == "" else line for line in resp])
-            #print "formatted_xml = " + formatted_xml
             data = get_xml_data(formatted_xml)
             book = Book(isbn10=data['isbn10'], isbn13=data['isbn13'], title=data['title'],
                     title_long=data['title_long'], author=data['author'], publisher=data['publisher'])
@@ -351,19 +320,45 @@ def get_book_by_isbn(isbn):
             db.session.add(book)
             db.session.commit()
         else:
+            # TODO: This is bad, should fix.
             print "Returning none because somehow \"total_results=0\" was found..."
             return None
 
     return book
 
+
 #UTILS
+
+def filter_commons(search_term):
+    common_words = ['the', 'a', 'is', 'of', 'an']
+    for cw in common_words:
+        search_term.replace(cw, "")
+    return search_term
+
+
+def truncate_list(l):
+    return [[book for book in book_list if book] for book_list in books]
+
+
+def empty_list(lists):
+    for s in lists:
+        if isinstance(s, Book):
+            return False
+        for l in s:
+            if isinstance(s, Book):
+                return False
+    return True
+
 
 def clean_isbn(isbn):
     return isbn.replace("-", "").replace(" ", "")
 
+
 def valid_isbn(isbn):
     return len(isbn) == 10 or len(isbn) == 13
 
+
+# TODO: Switch to BeautifulSoup
 def get_xml_data(xml, **data):
     book_data = ET.fromstring(xml)
 
@@ -378,16 +373,3 @@ def get_xml_data(xml, **data):
             data['publisher'] = children[3].text
 
     return data
-
-def get_search_results(query):
-    #Try an int first
-    try:
-        int(clean_isbn(query))
-        return get_book_by_isbn
-    except:
-        query = query.replace(" ", "_")
-        xml = urllib.urlopen("http://isbndb.com/api/v2/xml/KI4B9RHN/book/"+query)
-        if "total_results\"=0\"" not in xml.read():
-            return xml.read()
-        return urllib.urlopen("http://isbndb.com/api/v2/xml/KI4B9RHN/author/"+query).read()
-
