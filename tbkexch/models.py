@@ -1,5 +1,4 @@
 from tbkexch import db
-from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime, date, time, timedelta
 
 class User(db.Model):
